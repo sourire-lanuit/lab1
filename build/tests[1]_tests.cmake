@@ -1,0 +1,7 @@
+add_test([=[FallingFactorialTest.BasicCases]=]  C:/Users/User/git/lab1/build/tests.exe [==[--gtest_filter=FallingFactorialTest.BasicCases]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[FallingFactorialTest.BasicCases]=]  PROPERTIES WORKING_DIRECTORY C:/Users/User/git/lab1/build SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+add_test([=[FallingFactorialTest.EdgeCases]=]  C:/Users/User/git/lab1/build/tests.exe [==[--gtest_filter=FallingFactorialTest.EdgeCases]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[FallingFactorialTest.EdgeCases]=]  PROPERTIES WORKING_DIRECTORY C:/Users/User/git/lab1/build SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+add_test([=[FallingFactorialTest.NegativeCases]=]  C:/Users/User/git/lab1/build/tests.exe [==[--gtest_filter=FallingFactorialTest.NegativeCases]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[FallingFactorialTest.NegativeCases]=]  PROPERTIES WORKING_DIRECTORY C:/Users/User/git/lab1/build SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+set(  tests_TESTS FallingFactorialTest.BasicCases FallingFactorialTest.EdgeCases FallingFactorialTest.NegativeCases)
