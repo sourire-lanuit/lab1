@@ -1,4 +1,4 @@
-name: CMake Build and Test
+name: C++ 
 
 on:
   push:
@@ -6,20 +6,32 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions:
+  contents: read
+
 jobs:
   build:
-
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Configure project
-      run: cmake -S . -B build
+      - name: Set up compiler and Google Test
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++ cmake make clang-tidy
+          git clone https://github.com/google/googletest.git
+          cd googletest
+          cmake .
+          make
+          sudo make install
 
-    - name: Build project
-      run: cmake --build build
+      - name: Build project
+        run: |
+          g++ -std=c++17 -I. -o my_tests tests/falling_fact_tests.cpp falling_fact.cpp -lgtest -lgtest_main -pthread
 
-    - name: Run tests
-      run: ctest --test-dir build --verbose
+      - name: Run tests
+        run: |
+          chmod +x my_tests
+          ./my_tests
