@@ -29,7 +29,6 @@ jobs:
 
       - name: Build project
         run: |
-          cd lab1
           g++ -std=c++17 -I. -o my_tests tests/falling_fact_tests.cpp falling_fact.cpp -lgtest -lgtest_main -pthread
 
       - name: Run tests
