@@ -12,10 +12,10 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-add_executable(falling_fact falling_fact.cpp)
-add_executable(tests test_falling_fact.cpp)
+add_library(falling_fact falling_fact.cpp)
+add_executable(tests tests/falling_fact_tests.cpp)
 
-target_link_libraries(tests GTest::gtest_main)
+target_link_libraries(tests falling_fact GTest::gtest_main)
 
 include(GoogleTest)
 gtest_discover_tests(tests)
