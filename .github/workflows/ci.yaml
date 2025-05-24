@@ -1,4 +1,4 @@
-name: C++ CI
+name: Docker CI
 
 on:
   push:
@@ -8,30 +8,31 @@ on:
 
 permissions:
   contents: read
-
+  packages: write  
+  
 jobs:
-  build:
+  docker-build-test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up compiler and Google Test
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y g++ cmake make clang-tidy
-          git clone https://github.com/google/googletest.git
-          cd googletest
-          cmake .
-          make
-          sudo make install
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build project
+      - name: Build Docker image
         run: |
-          g++ -std=c++17 -I. -o my_tests tests/falling_fact_tests.cpp falling_fact.cpp -lgtest -lgtest_main -pthread
+          docker build -t ghcr.io/${{ github.repository }}:latest .
 
-      - name: Run tests
+      - name: Push Docker image to GitHub Container Registry
         run: |
-          chmod +x my_tests
-          ./my_tests
+          docker push ghcr.io/${{ github.repository }}:latest
+
+      - name: Run tests inside the container
+        run: |
+          docker run --rm ghcr.io/${{ github.repository }}:latest
